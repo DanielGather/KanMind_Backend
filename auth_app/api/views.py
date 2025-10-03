@@ -26,7 +26,6 @@ class RegistrationView(APIView):
         else:
             data = serializer.errors
         
-
         return Response(data)
     
 
