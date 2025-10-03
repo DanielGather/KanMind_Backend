@@ -1,9 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from auth_app.models import CustomUser
-
-
-User = get_user_model()
+from django.contrib.auth.models import User
 
 class RegistrationSerializer(serializers.ModelSerializer):
     repeated_password = serializers.CharField(write_only=True)
@@ -31,3 +27,4 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError('Email already exists')
         return value
+    

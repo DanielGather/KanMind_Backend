@@ -7,6 +7,7 @@ from .serializers import RegistrationSerializer
 
 class RegistrationView(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = []
 
     def post(self, request):
         
@@ -21,6 +22,31 @@ class RegistrationView(APIView):
                 'fullname' : saved_account.username,
                 'email' : saved_account.email,
                 'user_id' : saved_account.id
+            }
+        else:
+            data = serializer.errors
+        
+
+        return Response(data)
+    
+
+class LoginView(ObtainAuthToken):
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def post(self, request):
+        
+        serializer = self.serializer_class(data=request.data)
+
+        data = {}
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
+            data = {
+                'token' : token.key,
+                'fullname' : user.username,
+                'email' : user.email,
+                'user_id' : user.id
             }
         else:
             data = serializer.errors
