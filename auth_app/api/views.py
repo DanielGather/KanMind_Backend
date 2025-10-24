@@ -26,7 +26,7 @@ class RegistrationView(APIView):
         }
         
         serializer = RegistrationSerializer(data=new_data)
-        
+        # serializer = RegistrationSerializer(data=request.data)
         
         data = {}
         if serializer.is_valid():
